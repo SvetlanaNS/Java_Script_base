@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Homework</title>
+</head>
+<body>
+<!--
+Обязательное задание.
+
+Необходимо данное задание выполнить в es5 стиле и в es6 стиле.
+Необходимо создать функцию-конструктор/класс для поста в социальной сети.
+Названия: `PostES5` для es5 стиля и `PostES6` для es6 стиля.
+Пост должен хранить:
+1. Автора поста (имени достаточно).
+2. Текст поста.
+3. Дату и время последнего изменения поста.
+Данные автора поста и текст поста необходимо передавать при создании
+экземпляра объекта.
+Каждому экземпляру объекта должен быть доступен метод `edit`, который будет
+менять текст поста.
+
+---
+
+Необходимо создать функцию-конструктор/класс для закрепленного поста в
+социальной сети.
+Названия: `AttachedPostES5` для es5 стиля и `AttachedPostES6` для es6 стиля.
+Закрепленный пост должен наследоваться от обычного поста.
+Данные автора поста и текст поста необходимо передавать при создании
+экземпляра объекта.
+Закрепленный пост должен иметь свойство `highlighted`, в котором по умолчанию
+будет лежать значение false (это свойство будет обозначать, будет ли наш
+закрепленный пост подсвечен).
+У экземпляров объекта закрепленного поста должен быть метод с названием
+`makeTextHighlighted`, который сделает так, чтобы наш пост стал подсвеченным
+(будет менять свойство `highlighted`).
+
+---
+
+Подсказки:
+1. Задание сложное, советую делать по аналогии с примером на онлайн-занятии.
+2. Обратите внимание что пост хранит "дату и время последнего изменения
+поста", это значит что если пост кто-то изменит (например вызовет какой-то
+метод, который изменит что-то в посте), дата и время последнего изменения
+поста также должна измениться.
+3. Выполняйте все по порядку, не стоит пытаться сделать все сразу, иначе можно
+что-нибудь пропустить.
+4. Если непонятно условие - задайте вопрос.
+-->
+<script>
+  "use strict";
+//в es5 стиле:
+
+function PostES5(author, text) {
+this.author1 = author;
+this.text1 = text; 
+this.date1 = new Date();
+}
+
+PostES5.prototype.edit = function(text) {
+this. text1 = text;   
+this. date1 = new Date();
+};
+
+const postES5 = new PostES5('Sidorova_S_N', 'lorem');
+console.log(postES5);
+postES5.edit('Новый текст поста');
+console.log(postES5);
+
+
+
+function InstancePostES5(author, text) {
+this. author1 = author;
+this. text1 = text; 
+this. date1 = new Date();
+
+
+PostES5.call(this, author, text); 
+this.highlighted = false;
+
+}
+InstancePostES5.prototype = Object.create(PostES5.prototype);
+InstancePostES5.prototype.constructor = InstancePostES5;
+
+InstancePostES5.prototype.makeTextHighlighted = function() {
+    this.highlighted = true;
+
+    this.date1 = new Date();
+};
+
+const instance_1_PostES5 = new InstancePostES5('Petrova_S_N', 'Solo');
+console.log(instance_1_PostES5);
+instance_1_PostES5.makeTextHighlighted();
+instance_1_PostES5.edit('Новый текст поста');
+console.log(instance_1_PostES5);
+
+/*
+PostES5 {author1: 'Sidorova_S_N', text1: 'lorem', date1: Thu Mar 03 2022 18:53:57
+ GMT+0300 (Москва, стандартное время)}
+
+PostES5 {author1: 'Sidorova_S_N', text1: 'Новый текст поста', date1:
+ Thu Mar 03 2022 18:53:58 GMT+0300 (Москва, стандартное время)}
+
+InstancePostES5 {author1: 'Petrova_S_N', text1: 'Solo', date1: Thu Mar
+ 03 2022 18:54:02 GMT+0300 (Москва, стандартное время), highlighted: false}
+
+InstancePostES5 {author1: 'Petrova_S_N', text1: 'Новый текст поста', 
+date1: Thu Mar 03 2022 18:54:26 GMT+0300 (Москва, стандартное время), 
+highlighted: true}
+*/
+
+//в es6 стиле:
+class PostES6 {
+constructor (author, text) {
+this.author1 = author;
+this.text1 = text; 
+this.date1 = new Date();
+}
+
+edit(text) {
+    this.text1 = text;
+    this.date1 = new Date();
+}
+}
+const postES6 = new PostES6('Sidorova_S_N', 'lorem');
+console.log(postES6);
+postES6.edit('Новый текст поста');
+console.log(postES6);
+
+class InstancePostES6 extends PostES6 {
+    highlighted = false; 
+    makeTextHighlighted() {
+    this.highlighted = true;    
+    this.date1 = new Date();
+}
+}
+const instance_1_PostES6 = new InstancePostES6('Petrova_S_N', 'Solo');
+console.log(instance_1_PostES6);
+instance_1_PostES6.makeTextHighlighted();
+instance_1_PostES6.edit('Новый текст поста');
+console.log(instance_1_PostES6);
+
+/*PostES6 {author1: 'Sidorova_S_N', text1: 'lorem', date1: Thu Mar 03 2022 
+19:30:25 GMT+0300 (Москва, стандартное время)}
+
+PostES6 {author1: 'Sidorova_S_N', text1: 'Новый текст поста',
+ date1: Thu Mar 03 2022 19:30:27 GMT+0300 
+(Москва, стандартное время)}
+
+InstancePostES6 {author1: 'Petrova_S_N', text1: 'Solo', date1:
+ Thu Mar 03 2022 19:30:29 GMT+0300 (Москва, стандартное время), highlighted: false}
+
+InstancePostES6 {author1: 'Petrova_S_N', text1: 'Новый текст поста',
+ date1: Thu Mar 03 2022 19:30:35 GMT+0300 (Москва, стандартное время),
+  highlighted: true}
+*/
+
+</script>
+</body>
+</html>
